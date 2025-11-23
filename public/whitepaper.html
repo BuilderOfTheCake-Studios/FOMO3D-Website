@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content=device-width, initial-scale=1">
+
+<title>FOMO3D Technical Whitepaper</title>
+<link rel="icon" href="/favicon.png" type="image/png">
+
+<style>
+  body {
+    font-family: "Georgia", serif;
+    line-height: 1.65;
+    color: #111;
+    background: #f8f8f8;
+    margin: 0;
+    /* padding: 2rem 0; */
+  }
+
+  .paper-container {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 3rem 4rem;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+  }
+
+  h1, h2, h3 {
+    font-family: "Georgia", serif;
+    font-weight: 600;
+    color: #111;
+  }
+
+  h1 {
+    font-size: 2.4rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+    margin-top: 2.5rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.4rem;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    margin-top: 1.4rem;
+  }
+
+  p {
+    margin-bottom: 1.2rem;
+  }
+
+  code {
+    background: #eee;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: "Courier New", monospace;
+  }
+
+  ul, ol {
+    margin-left: 2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .metadata {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 3rem;
+  }
+
+  a {
+    color: #003399;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 2rem 0;
+  }
+</style>
+</head>
+
+<body>
+<div class="paper-container">
+
+<h1>FOMO3D Technical Whitepaper</h1>
+
+<div class="metadata">
+  Version 1.0 • 2025<br>
+  Binance Smart Chain (BEP-20 Standard)<br>
+  Contract: <a href="https://bscscan.com/address/0x99f338D4282Ea8A9702eDaAbd06FDa1050d6AAD8">
+  0x99f338D4282Ea8A9702eDaAbd06FDa1050d6AAD8</a>
+</div>
+
+<hr>
+
+<section>
+<h2>1. Abstract</h2>
+<p>
+FOMO3D is a BEP-20 token deployed on the Binance Smart Chain. The token design focuses on supply immutability, a predictable reflection mechanism, and a multi-unit denomination system inspired by granular time measurement. The project establishes a base asset that supports on-chain applications, reward systems, and microeconomic structures. This document describes the design rationale, supply structure, reflection model, denomination hierarchy, and system architecture.
+</p>
+</section>
+
+<section>
+<h2>2. Introduction</h2>
+<p>
+Digital assets often rely on variable supply, burn mechanics, or inflationary components. FOMO3D takes a fixed-supply approach with an integrated reflection model that distributes a portion of transactional volume to holders. This structure supports a predictable economic environment while incentivizing long-term participation.
+</p>
+
+<p>
+The token uses the symbol <strong>ⴵ</strong>, represented visually as an hourglass. This symbol reflects the relationship between small divisible units and the passage of time. The token is intended to function as a foundational resource inside an expanding ecosystem of applications.
+</p>
+</section>
+
+<section>
+<h2>3. Design Goals</h2>
+<p>
+The token architecture is based on the following goals:
+</p>
+
+<ul>
+  <li><strong>Fixed Supply:</strong> Preserve long-term scarcity without minting or expansion.</li>
+  <li><strong>Passive Distribution:</strong> Provide predictable reflection rewards during transactional activity.</li>
+  <li><strong>Unit Hierarchy:</strong> Support precise value subdivision through a multi-tier denomination system.</li>
+  <li><strong>Compatibility:</strong> Maintain adherence to the BEP-20 standard and BSC network tooling.</li>
+  <li><strong>Ecosystem Utility:</strong> Enable use within future applications and cryptographic environments.</li>
+</ul>
+</section>
+
+<section>
+<h2>4. Token Specification</h2>
+
+<h3>4.1 Supply</h3>
+<ul>
+  <li><strong>Total Supply:</strong> ⴵ1,000,000</li>
+  <li><strong>Minting:</strong> Disabled permanently</li>
+  <li><strong>Burning:</strong> Tokens can be permanently removed from the supply</li>
+  <li><strong>Decimals:</strong> 18</li>
+</ul>
+
+<h3>4.2 Contract Information</h3>
+<p>
+The smart contract is deployed at:
+</p>
+<p>
+<a href="https://bscscan.com/address/0x99f338D4282Ea8A9702eDaAbd06FDa1050d6AAD8">
+0x99f338D4282Ea8A9702eDaAbd06FDa1050d6AAD8
+</a>
+</p>
+<p>
+The implementation follows the BEP-20 interface standard including <code>transfer</code>, <code>approve</code>, <code>transferFrom</code>, and balance methods.
+</p>
+
+<h3>4.3 Reflection Model</h3>
+<p>
+A reflection fee of 10% is applied to each transfer. The collected amount is distributed proportionally to all token holders. The distribution mechanism operates without staking, lockups, or manual claims. Rewards accumulate as a natural result of network activity.
+</p>
+
+<p>
+The reflection process functions as follows:
+</p>
+
+<ol>
+  <li>A transfer request is submitted.</li>
+  <li>10% of the amount is separated as a reflection fee.</li>
+  <li>The remaining 90% is transferred to the recipient.</li>
+  <li>The reflection portion is allocated to holders according to their relative share of the total supply.</li>
+</ol>
+
+<p>
+This mechanism increases individual balances gradually whenever transactional activity occurs.
+</p>
+</section>
+
+<section>
+<h2>5. Denomination Structure</h2>
+<p>
+FOMO3D introduces a unit hierarchy modeled on granular time measurement. This structure creates intuitive categories for different scales of transactions.
+</p>
+
+<ul>
+  <li><strong>Talent (ⵐ):</strong> ⴵ60,000</li>
+  <li><strong>FOMO (ⴵ):</strong> Base unit</li>
+  <li><strong>Mina (ⵠ):</strong> ⴵ0.01</li>
+  <li><strong>Grain (ⴾ):</strong> ⴵ0.0001</li>
+</ul>
+
+<p>
+The hierarchy supports both large and micro-scale transfers. It also establishes a framework for future applications that rely on precise fractional units. There are only 16.66 total Talent in the supply.
+</p>
+</section>
+
+<section>
+<h2>6. Ecosystem Overview</h2>
+<p>
+The token is designed to function as a base utility asset for multiple applications. These applications operate independently and use FOMO3D as a transactional or redeemable component.
+</p>
+
+<ul>
+  <li><strong>Prize Wheel Faucet:</strong> Randomized reward distribution system</li>
+  <li><strong>NFT Redemption:</strong> Exchange process for blockchain-based collectibles</li>
+  <li><strong>Community Systems:</strong> Access controls based on token holdings</li>
+  <li><strong>VR and Digital Environments:</strong> Planned expansions</li>
+</ul>
+
+<p>
+The design allows new applications to be introduced without altering the original token contract.
+</p>
+</section>
+
+<section>
+<h2>7. Security Considerations</h2>
+<p>
+The contract operates on a fixed supply with no owner-controlled minting functions. Reflection logic is deterministic and integrated into each transfer. Standard BEP-20 approval patterns apply.
+</p>
+
+<p>
+Holders are responsible for securing private keys and verifying contract addresses when interacting with external platforms.
+</p>
+</section>
+
+<section>
+<h2>8. Conclusion</h2>
+<p>
+FOMO3D provides a fixed-supply token with an integrated reflection model and a structured unit hierarchy. The design supports a stable foundation for applications that require predictable supply behavior and passive distribution features. Future development will extend the utility of the token across additional on-chain and off-chain systems.
+</p>
+</section>
+
+<hr>
+
+<div class="metadata">
+  FOMO3D • 2025<br>
+</div>
+
+</div>
+</body>
+</html>
