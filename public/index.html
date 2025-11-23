@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FOMO3D | ⴵ</title>
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    html, body {
+      font-family: "Space Grotesk", sans-serif;
+      background: #0a0a0f;
+      color: #eee;
+      overflow-x: hidden;
+    }
+
+    /* Padding fix for mobile */
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    /* Subtle animated falling grains */
+    .grain {
+      position: fixed;
+      top: -10px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #b377ff;
+      opacity: 0.8;
+      animation: fall linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes fall {
+      from { transform: translateY(-10vh) translateX(0); }
+      to   { transform: translateY(110vh) translateX(10px); }
+    }
+
+    .hero {
+      background: linear-gradient(180deg, #1a0f2b, #0a0a0f);
+      padding-top: 3rem;
+      padding-bottom: 6rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Centered, responsive logo */
+    .token-logo {
+      width: 140px;
+      height: 140px;
+      margin: 0 auto;
+      background: #222;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 0 25px rgba(179, 119, 255, 0.4);
+    }
+
+    .token-logo img {
+      width: 90%;
+      height: 90%;
+      object-fit: contain;
+    }
+
+    /* Lighter <strong> for readability */
+    strong {
+      color: #d9b7ff;
+    }
+
+    a {
+      color: #8d73ff;
+    }
+
+    a:hover {
+      color: #c1f6ff;
+    }
+
+    .footer {
+      background: #0d0d14;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    /* Copy button styling */
+    .copy-btn {
+      margin-top: 1rem;
+      background: #b377ff;
+      border: none;
+      color: white;
+      padding: 0.75rem 1.25rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      background: #c692ff;
+    }
+
+    .button.metamask-btn {
+      background: linear-gradient(135deg, #f6851b, #ff9900);
+      color: white;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      transition: filter 0.2s ease;
+    }
+
+    .button.metamask-btn:hover {
+      filter: brightness(1.1);
+    }
+
+    /* PancakeSwap Button */
+    .button.pancakeswap-btn {
+      background: linear-gradient(135deg, #ff7bff, #ff5fa2);
+      color: white;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      transition: filter 0.2s ease;
+    }
+
+    .button.pancakeswap-btn:hover {
+      filter: brightness(1.1);
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- Animated Background Grains -->
+  <script>
+    const grains = 50;  
+    for (let i = 0; i < grains; i++) {
+      const g = document.createElement("div");
+      g.classList.add("grain");
+      g.style.left = Math.random() * 100 + "vw";
+      g.style.animationDuration = 3 + Math.random() * 6 + "s";
+      g.style.animationDelay = Math.random() * -10 + "s";
+      document.body.appendChild(g);
+    }
+
+    function copyAddress() {
+      navigator.clipboard.writeText("0x99f338D4282Ea8A9702eDaAbd06FDa1050d6AAD8");
+      alert("Contract address copied!");
+    }
+
+    async function addToMetaMask() {
+      if (!window.ethereum) {
+        alert("MetaMask not detected — install it first.");
+        return;
+      }
+
+      try {
+        // Switch to BSC
+        try {
+          await ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: '0x38' }] // BSC Mainnet
+          });
+        } catch (switchError) {
+          // This error code indicates that the chain is not added to MetaMask
+          if (switchError.code === 4902) {
+            await ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [{
+                chainId: '0x38',
+                chainName: 'Binance Smart Chain Mainnet',
+                nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
+                rpcUrls: ['https://bsc-dataseed.binance.org/'],
+                blockExplorerUrls: ['https://bscscan.com']
+              }]
+            });
+          } else {
+            throw switchError;
+          }
+        }
+
+        // Now add FOMO3D token
+        const wasAdded = await ethereum.request({
+          method: 'wallet_watchAsset',
+          params: {
+            type: 'ERC20',
+            options: {
+              address: '0x99f338D4282Ea8A9702eDaAbd06FDa1050d6AAD8',
+              symbol: 'FOMO3',
+              decimals: 18,
+              image: 'https://fomo3d.cake.builders/favicon.png'
+            }
+          }
+        });
+
+        if (wasAdded) {
+          alert('FOMO3D token added to MetaMask on BSC!');
+        } else {
+          alert('Token was not added.');
+        }
+
+      } catch (error) {
+        console.error(error);
+        alert('MetaMask error — open the console for details.');
+      }
+    }
+  </script>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container has-text-centered">
+      <div class="token-logo">
+        <img src="favicon.png" alt="FOMO3D Logo">
+      </div>
+      <br>
+      <br>
+      <h1 class="title has-text-white mt-4">
+        FOMO3D ⴵ
+      </h1>
+      <br>
+      <p class="subtitle has-text-grey-light">
+        Reflective BEP-20 token | Exclusive ecosystem | Holder rewards | Virtual reality experience
+      </p>
+      <!-- <button class="copy-btn" onclick="copyAddress()">
+        ⵎ Copy Contract Address
+      </button> -->
+      <button class="button metamask-btn mt-3" onclick="addToMetaMask()">
+        + Import FOMO3D to MetaMask
+      </button>
+      <br>
+      <br>
+      <a class="button pancakeswap-btn mt-3" href="https://pancakeswap.finance/swap?outputCurrency=0x99f338D4282Ea8A9702eDaAbd06FDa1050d6AAD8">
+        ⴵ Buy FOMO3D now on PancakeSwap
+      </a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section">
+    <div class="container">
+      <h2 class="title has-text-white">What is FOMO3D?</h2>
+      <p class="has-text-grey-light">
+        FOMO3D uses the Binance Smart Chain to run a closed ecosystem and reward holders with reflections. By holding FOMO3D, investors gain access to exclusive access to groups, events, and on-chain applications. As a foundational principle, holding the token for longer means that investors are rewarded with more FOMO3D as per the tokenomics.
+        Represented by the hourglass and the symbol <strong>ⴵ</strong>, FOMO3D reflects how value flows like grains through time — once gone, never returning.
+      </p>
+    </div>
+  </section>
+
+  <!-- TOKENOMICS -->
+  <section class="section">
+    <div class="container">
+      <h2 class="title has-text-white">Tokenomics</h2>
+      <div class="content has-text-grey-light">
+        <ul>
+          <li><strong>Network:</strong> Binance Smart Chain</li>
+          <li><strong>Ticker:</strong> FOMO3</li>
+          <li><strong>Symbol:</strong> ⴵ</li>
+          <li><strong>Total Supply:</strong> 1,000,000 — the supply can <i>never</i> increase!</li>
+          <li><strong>Reflections:</strong> 10% — this means that in every transaction, 10% of the transaction amount is redistributed to holders. Therefore, by holding while the market fluctuates, your FOMO3D balance increases over time!</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- UNIT SYSTEM -->
+  <section class="section">
+    <div class="container">
+      <h2 class="title has-text-white">Unit System</h2>
+      <p class="has-text-grey-light">
+        FOMO3D is split into several denominations:
+      </p>
+      <div class="content has-text-grey-light">
+        <ul>
+          <li><strong>1 Talent ( ⵐ )</strong> = 60,000 ⴵ</li>
+          <li><strong>1 FOMO ( ⴵ )</strong> — the base unit</li>
+          <li><strong>1 Mina ( ⵠ )</strong> = 0.01 ⴵ</li>
+          <li><strong>1 Grain ( ⴾ )</strong> = 0.0001 ⴵ</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+    <section class="section">
+    <div class="container">
+      <h2 class="title has-text-white">Earn FOMO3D</h2>
+      <p class="has-text-grey-light">
+        FOMO3D can be earned for free by participating in the community!
+      </p>
+      <div class="content has-text-grey-light">
+        <ul>
+          <li><strong><a href="https://fomo3d.cake.builders">Prize Wheel Faucet</a></strong> — spin the wheel to earn FOMO3D for free!</li>
+          <li>Community interactions</li>
+          <li>More coming soon...</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>
+      FOMO3D © 2025 — All rights reserved.<br>
+      Contact: <a href="https://x.com/FOMO3D_Token">FOMO3D on X</a>
+      <br>
+      Smart Contract: <a href="https://bscscan.com/address/0x99f338d4282ea8a9702edaabd06fda1050d6aad8">0x99f338D4282Ea8A9702eDaAbd06FDa1050d6AAD8</a>
+      <br>
+    </p>
+  </footer>
+
+</body>
+</html>
